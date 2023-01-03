@@ -7,12 +7,12 @@ from sqlalchemy.orm import Session
 from app.database.connection import db
 from app.database.schema import User
 from app.models import user
-from app.common.response import response
+from app.common.response import Response, response
 
 router = APIRouter(prefix="/api/auth", tags=["Auth"])
 
 
-@router.post("/register", status_code=201)
+@router.post("/register", status_code=201, response_model=Response)
 async def register(user: user.UserRegister, session: Session = Depends(db.session)):
     check = session.query(exists().where(User.email == user.email)).scalar()
 
